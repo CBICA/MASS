@@ -1,0 +1,132 @@
+
+  Section of Biomedical Image Analysis
+  Department of Radiology
+  University of Pennsylvania
+  3600 Market Street, Suite 380
+  Philadelphia, PA 19104
+
+  Web:   http://www.cbica.upenn.edu/sbia/
+  Email: sbia-software at uphs.upenn.edu
+
+  Copyright (c) 2011-2014 University of Pennsylvania. All rights reserved.
+  See http://www.cbica.upenn.edu/sbia/software/license.html or COPYING file.
+
+
+
+INTRODUCTION
+============
+
+  This document contains the build and installation instructions.
+
+
+
+RUNTIME REQUIREMENTS
+====================
+
++---------------------+---------+----------------------------------------------------------------------------+
+| Dependency          | Version | Description                                                                |
++=====================+=========+============================================================================+
+| DRAMMS              | 1.4.1   | A registration algorithm developed at SBIA to warp images.		     |
++---------------------+---------+----------------------------------------------------------------------------+
+| AFNI                | 	| Using the version built on 2008_07_18_1710				     |
++---------------------+---------+----------------------------------------------------------------------------+
+| FSL                 | 4.1.5   | A comprehensive library of analysis tools for brain imaging data           |
++---------------------+---------+----------------------------------------------------------------------------+
+| SCIKIT-LEARN        | 0.14.1  | A python package providing several data mining and data analysis tools.    |
++---------------------+---------+----------------------------------------------------------------------------+
+| NIBABEL	      | 1.2.0   | A python package for read and write access to common medical file formats  |
++---------------------+---------+----------------------------------------------------------------------------+
+
+Links to downloads
+------------------
+
+SBIA: 		http://www.cbica.upenn.edu/sbia/index.html
+DRAMMS: 	http://www.cbica.upenn.edu/sbia/software/dramms/download.html
+FSL: 		http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
+SCIKIT-LEARN: 	http://scikit-learn.org/stable/install.html
+NIBABEL: 	http://nipy.org/nibabel/installation.html
+AFNI: 		http://afni.nimh.nih.gov/afni/download
+
+
+
+BUILDING THE SOFTWARE FROM SOURCES
+==================================
+
+Job Scheduler
+-------------
+
+If you have access to a computing cluster which has a job scheduler/queuing software (SGE, PBS etc) installed, it 
+can be used to significantly reduce the (wall-clock) time it will take for the MASS software to produce the results. 
+During the installation process, you can initialize the "SCHEDULER" variable with the particular version of your 
+job scheduler. Currently, there are four options that are supported. You can select the one that best fits your system::
+
+   SGE  - Sun Grid Engine
+   PBS  - Portable Batch System
+   NONE - No queuing system (default)
+   MISC - User defined setting
+   
+If you have a different queuing software and you select the "MISC" option, you need to modify the 
+**src/schedulerSettings/SettingsMISC.sh** file within the package with the appropriate options and arguments that are specific 
+to your queuing system. You can refer to the corresponding files for SGE and PBS as examples.
+
+Configure
+---------
+
+1. Extract source files:
+
+  $  tar -xzf mass-1.1.0-source.tar.gz
+
+2. Create build directory:
+
+  $  mkdir mass-1.1.0-build
+
+3. Change to build directory:
+
+  $  cd mass-1.1.0-build
+
+4. Run CMake to configure the build tree by using either one of the following commands:
+
+  $  cmake -D CMAKE_INSTALL_PREFIX:STRING=/Full/path/to/install/mass/    \
+    	   -D SCHEDULER:STRING=??? ../mass-1.1.0-source
+    
+   OR:
+    
+  $  ccmake ../mass-1.1.0-source
+
+   - Press "c" to configure the build system and "e" to ignore warnings.
+   - Set "SCHEDULER" variable with your job scheduler information.
+   - Set "CMAKE_INSTALL_PREFIX" and other CMake variables and options.
+   - Continue pressing "c" until the option "g" is available.
+   - Then press "g" to generate the GNU Make configuration files.
+
+
+Build
+-----
+
+After the configuration of the build tree, the software can be build using GNU Make:
+
+  $  make
+
+Test (NOT INCLUDED IN THIS PACKAGE)
+-----------------------------------
+
+After building the software, the software tests can be run using:
+
+  $  make test
+
+Allow 30-60 mins for the tests to finish. The last test, if the "SCHEDULER" variable is not 
+set to "NONE", is meant to check if submitting the jobs to the queuing system works. Please 
+check your queue (for e.g. using "qstat" for SGE, PBS) to make sure that the jobs were submitted. 
+If they are submitted, you can either delete them or wait for them to finish. As soon as these tests 
+finish, you can proceed to the installation.
+
+Install
+-------
+
+The final installation copies the built files and additional data and documentation
+files to the installation directory specified using the "CMAKE_INSTALL_PREFIX"
+option during the configuration of the build tree:
+
+  $  make install
+    
+After the successful installation, the build directory can be removed.

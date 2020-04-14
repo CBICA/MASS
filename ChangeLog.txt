@@ -1,0 +1,73 @@
+..
+  Section of Biomedical Image Analysis
+  Department of Radiology
+  University of Pennsylvania
+  3600 Market Street, Suite 380
+  Philadelphia, PA 19104
+  
+  Web:   https://www.cbica.upenn.edu/sbia/
+  Email: sbia-software at uphs.upenn.edu
+  
+  Copyright (c) 2011-2014 University of Pennsylvania. All rights reserved.
+  See http://www.cbica.upenn.edu/sbia/software/license.html or COPYING file.
+
+
+.. This file is formatted using reStructuredText (reST) and included by doc/changelog.rst !
+
+
+Changes
+=======
+
+.. _v1.1.1:
+
+Release 1.1.1
+-----------------------------
+
+**Minor Changes**
+
+- Removed dependency to BASIS
+- Modified .py files to use the default version of python
+- Converted .py files to python3.6
+
+.. _v1.1.0:
+
+Release 1.1.0 (TBA)
+-----------------------------
+
+**Major Changes**
+
+- Improved the performance of the ChooseTemplate mechanism (may give different results than the 1.0.0 version)
+- Made the package adaptive to different batch processing (job scheduling) softwares
+- Added unit and system tests to the package
+- Discontinued the ability to generate ventricle masks
+- Converted the templates from float to byte
+- Added 3 more templates to Templates/WithoutCerebellum
+- Made the following changes to the options
+	- "-sge" 	-- "-log"
+	- "-NOSGE" 	-- "-NOQ"
+	- "-tmp" 	-- discontinued
+	- "-VNmask" 	-- discontinued
+- Added the following options
+	- "-mask"	-- to specify the output mask name
+	- "-cbq"	-- to specify the output intensity image
+	- "-mem"	-- to specify the memory requirement
+
+**Minor Changes**
+
+- Added a mass utility functions script
+- Added a feature to retain intermediate files
+- Removed all references to SBIA environment variables, making it more generic to systems outside SBIA
+- Updated the web addresses to point to the new CBICA website
+- Modified the intermediate filenames to allow the user to run multiple instances of mass on images stored in
+  the same directory
+- Added an option to request memory for the mass-registrations and mass-skullstripping jobs, instead of a hardcoded value
+- Created a CBICA software webpage for the package
+- Made the script adaptive to filenames relative to current working directory
+- Modified the mechanism to create temporary directory slightly to accept a user specified directory
+
+.. _v1.0.0:
+
+Release 1.0.0 (Jan 1, 2013)
+-----------------------------
+
+- First stable release.
